@@ -1,30 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<title>Retro Pixel Converter</title>
-<link rel="stylesheet" href="style.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIXELFORGE — Retro Photo Engine</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
 <body>
 
-<div class="container">
+  <div class="wrapper">
 
-<h1>Retro Pixel Photo Converter</h1>
+    <!-- HEADER -->
+    <header>
+      <p class="logo-tag">[ PIXELFORGE ENGINE ]</p>
+      <h1 class="glitch">PIXELFORGE</h1>
+      <p class="subtitle">Retro · Pixel · Dither · Glitch · Art Engine</p>
+      <div class="deco-line"><span></span><em>✦</em><span></span></div>
+    </header>
 
-<input type="file" id="upload">
+    <!-- MAIN GRID -->
+    <div class="main-grid">
 
-<div class="buttons">
-<button id="pixelBtn">Convert to Pixel</button>
-<button id="downloadBtn">Download</button>
-</div>
+      <!-- LEFT COLUMN: Upload + Canvas + History -->
+      <div class="left-col">
 
-<canvas id="canvas"></canvas>
+        <!-- Upload Panel -->
+        <div class="panel" id="uploadPanel">
+          <div class="panel-header"><span class="dot"></span>INPUT FEED</div>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="upload" accept="image/*">
+            <span class="drop-icon">⬡</span>
+            <p class="drop-label">DROP IMAGE HERE</p>
+            <p class="drop-sub">PNG · JPG · WEBP · GIF · BMP</p>
+          </div>
+        </div>
 
-</div>
+        <!-- Canvas Output Panel -->
+        <div class="panel">
+          <div class="panel-header"><span class="dot"></span>OUTPUT RENDER</div>
+          <div class="canvas-wrap" id="canvasWrap">
+            <p class="canvas-placeholder" id="placeholder">▸ AWAITING INPUT ◂</p>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <div class="loading-overlay" id="loadingOverlay">
+              <div class="loader"></div>
+              <p class="loading-text">PROCESSING...</p>
+            </div>
+          </div>
+          <div class="stats-bar">
+            <div class="stat">DIMENSIONS<span class="stat-val" id="statDim">—</span></div>
+            <div class="stat">PIXEL SIZE<span class="stat-val" id="statPx">—</span></div>
+            <div class="stat">PALETTE<span class="stat-val" id="statPal">—</span></div>
+            <div class="stat">MODE<span class="stat-val" id="statMode">—</span></div>
+          </div>
+        </div>
 
-<script src="script.js"></script>
+        <!-- History Panel -->
+        <div class="panel" id="historyPanel" style="display:none;">
+          <div class="panel-header"><span class="dot"></span>HISTORY</div>
+          <div class="history-strip" id="historyStrip"></div>
+        </div>
+
+      </div><!-- /left-col -->
+
+      <!-- RIGHT COLUMN: Controls Sidebar -->
+      <div class="controls">
+
+        <!-- Effect Mode -->
+        <div class="panel">
+          <div class="panel-header"><span class="dot"></span>EFFECT MODE</div>
+          <div class="mode-grid">
+            <button class="mode-btn active" data-mode="pixel"><span class="icon">⬛</span>Pixel</button>
+            <button class="mode-btn" data-mode="dither"><span class="icon">░</span>Dither</button>
+            <button class="mode-btn" data-mode="ascii"><span class="icon">▓</span>ASCII</button>
+            <button class="mode-btn" data-mode="glitch"><span class="icon">⚡</span>Glitch</button>
+            <button class="mode-btn" data-mode="mosaic"><span class="icon">◈</span>Mosaic</button>
+            <button class="mode-btn" data-mode="halftone"><span class="icon">◎</span>Halftone</button>
+          </div>
+        </div>
+
+        <!-- Parameters -->
+        <div class="panel">
+          <div class="panel-header"><span class="dot"></span>PARAMETERS</div>
+          <div class="slider-group">
+            <div class="slider-item">
+              <div class="slider-label">Pixel Size <span class="slider-val" id="pixelSizeVal">12</span></div>
+              <input type="range" id="pixelSize" min="2" max="40" value="12">
+            </div>
+            <div class="slider-item">
+              <div class="slider-label">Color Depth <span class="slider-val" id="colorDepthVal">8</span></div>
+              <input type="range" id="colorDepth" min="2" max="32" value="8">
+            </div>
+            <div class="slider-item">
+              <div class="slider-label">Contrast <span class="slider-val" id="contrastVal">100</span></div>
+              <input type="range" id="contrastSlider" min="0" max="200" value="100">
+            </div>
+            <div class="slider-item">
+              <div class="slider-label">Brightness <span class="slider-val" id="brightnessVal">100</span></div>
+              <input type="range" id="brightnessSlider" min="0" max="200" value="100">
+            </div>
+            <div class="slider-item">
+              <div class="slider-label">Saturation <span class="slider-val" id="saturationVal">100</span></div>
+              <input type="range" id="saturationSlider" min="0" max="300" value="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Palette -->
+        <div class="panel">
+          <div class="panel-header"><span class="dot"></span>COLOR PALETTE</div>
+          <div class="palette-grid" id="paletteGrid"></div>
+        </div>
+
+        <!-- Options Toggles -->
+        <div class="panel">
+          <div class="panel-header"><span class="dot"></span>OPTIONS</div>
+          <div class="toggles-group">
+            <div class="toggle-row">Grayscale   <div class="toggle" id="toggleGray" data-key="gray"></div></div>
+            <div class="toggle-row">Scanlines   <div class="toggle" id="toggleScan" data-key="scan"></div></div>
+            <div class="toggle-row">Vignette    <div class="toggle" id="toggleVig"  data-key="vig"></div></div>
+            <div class="toggle-row">Auto-Apply  <div class="toggle on" id="toggleAuto" data-key="auto"></div></div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="panel">
+          <div class="panel-header"><span class="dot"></span>ACTIONS</div>
+          <div class="action-area">
+            <div class="progress-bar-wrap" id="progressWrap">
+              <div class="progress-label">RENDERING...</div>
+              <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+            <button class="btn-primary" id="applyBtn">⚙ APPLY EFFECT</button>
+            <div class="section-label" style="padding:4px 0 6px;">DOWNLOAD FORMAT</div>
+            <div class="fmt-row">
+              <button class="fmt-btn active" data-fmt="png">PNG</button>
+              <button class="fmt-btn" data-fmt="jpeg">JPG</button>
+              <button class="fmt-btn" data-fmt="webp">WEBP</button>
+            </div>
+            <button class="btn-secondary" id="downloadBtn">↓ SAVE IMAGE</button>
+            <button class="btn-danger"    id="resetBtn">✕ RESET</button>
+          </div>
+        </div>
+
+      </div><!-- /controls -->
+
+    </div><!-- /main-grid -->
+  </div><!-- /wrapper -->
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- JavaScript Modules (order matters) -->
+  <script src="js/state.js"></script>
+  <script src="js/palettes.js"></script>
+  <script src="js/helpers.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
 
 </body>
 </html>

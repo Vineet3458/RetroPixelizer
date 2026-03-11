@@ -1,0 +1,42 @@
+@keyframes scanMove {
+  from { background-position: 0 0; }
+  to   { background-position: 0 100px; }
+}
+
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 0.7; }
+  96% { opacity: 0.2; }
+  97% { opacity: 0.9; }
+  98% { opacity: 0.3; }
+}
+
+@keyframes titlePulse {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(0, 234, 255, 0.4)); }
+  50%       { filter: drop-shadow(0 0 50px rgba(0, 234, 255, 0.7)); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Glitch text effect on h1 */
+.glitch {
+  animation: titlePulse 3s ease-in-out infinite, glitchBase 6s infinite;
+}
+
+@keyframes glitchBase {
+  0%, 90%, 100% { clip-path: none; transform: none; }
+  91% { clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%); transform: translate(-2px, 0); }
+  92% { clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); transform: translate(2px, 0); }
+  93% { clip-path: none; transform: none; }
+}
