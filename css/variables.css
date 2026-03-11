@@ -1,0 +1,31 @@
+:root {
+  /* Colors */
+  --neon-green:  #00ff88;
+  --neon-cyan:   #00eaff;
+  --neon-orange: #ff6b00;
+  --neon-pink:   #ff2d78;
+
+  /* Backgrounds */
+  --bg-dark:  #080810;
+  --bg-card:  #0d0d1a;
+  --bg-panel: #111122;
+
+  /* UI */
+  --grid-color: rgba(0, 234, 255, 0.04);
+  --border:     rgba(0, 234, 255, 0.18);
+  --text:       #c8e0ff;
+
+  /* Glows */
+  --glow-cyan:   0 0 20px rgba(0, 234, 255, 0.5);
+  --glow-green:  0 0 20px rgba(0, 255, 136, 0.5);
+  --glow-orange: 0 0 20px rgba(255, 107, 0, 0.5);
+
+  /* Typography */
+  --font-mono:    'Share Tech Mono', monospace;
+  --font-display: 'Orbitron', sans-serif;
+  --font-retro:   'VT323', monospace;
+
+  /* Spacing */
+  --panel-pad: 14px;
+  --gap:       20px;
+}
